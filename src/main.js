@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import gsap from "gsap";
+import GUI from "lil-gui";
 
 // Scene Setup
 const scene = new THREE.Scene();
@@ -14,7 +15,10 @@ const camera = new THREE.PerspectiveCamera(
     0.1,
     1000
 );
-camera.position.set(0, 1.5, 4); // Start closer
+camera.position.set(0.990, 0.840, -0.290); // Start closer
+// camera helper
+// const cameraHelper = new THREE.CameraHelper(camera);
+// scene.add(cameraHelper);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -41,7 +45,7 @@ directionalLight.castShadow = true;
 scene.add(directionalLight);
 
 // Current Camera Target (for tweening lookAt)
-const currentTarget = new THREE.Vector3(0, 1, 0);
+const currentTarget = new THREE.Vector3(1.380, 0.830, -0.090);
 
 // Helper to update controls
 const updateCamera = () => {
@@ -52,39 +56,33 @@ const updateCamera = () => {
 
 // Camera Views (Interior Focus)
 // Assumes model is roughly centered at 0,0,0 and scale is in meters.
-// Camera Views - Optimized for Kenzo's Room Interior
 const views = [
     {
-        name: "Room Overview",
-        position: { x: 3, y: 2.5, z: 3 },
-        target: { x: -1, y: 1, z: 0 },
+      name: "Living Area",
+      position: { x: 0.990, y: 0.840, z: -0.290 },
+      target: { x: 1.380, y: 0.830, z: -0.090 },
     },
     {
-        name: "Bed & Wall Art",
-        position: { x: -3.5, y: 1.5, z: 1.5 },
-        target: { x: -1.8, y: 1.5, z: 0 },
+      name: "TV & Sofa",
+      position: { x: -0.130, y: 0.860, z: 1.320 },
+      target: { x: -1.960, y: 0.620, z: -0.520 },
     },
     {
-        name: "Play Area",
-        position: { x: 2, y: 1.2, z: -1 },
-        target: { x: 0, y: 0.5, z: 2 },
+      name: "Bedroom View",
+      position: { x: -2.769, y: 1.465, z: 1.240 },
+      target: { x: -3.320, y: 1.180, z: 0.650 },
     },
     {
-        name: "TV Corner",
-        position: { x: 1, y: 1.5, z: 2.5 },
-        target: { x: -2, y: 1, z: 0 },
+      name: "Kitchen Corner",
+      position: { x: -0.850, y: 1.150, z: 1.797 },
+      target: { x: -7.540, y: -0.130, z: 5.880 },
     },
     {
-        name: "Sofa View",
-        position: { x: -2, y: 1.3, z: -2 },
-        target: { x: 1, y: 1, z: 1 },
+      name: "Play Area",
+      position: { x: -3.270, y: 3.120, z: -0.570 },
+      target: { x: -9.670, y: -0.820, z: 10.000 },
     },
-    {
-        name: "Bird's Eye",
-        position: { x: 0, y: 6, z: 1 },
-        target: { x: 0, y: 0, z: 0.5 },
-    },
-];
+  ];
 
 // Load Model
 const loader = new GLTFLoader();
@@ -176,3 +174,35 @@ animate();
 
 // Initialize first button active
 document.querySelectorAll(".view-btn")[0]?.classList.add("active");
+
+
+const gui = new GUI({ title: "Camera Panel" });
+
+const camFolder = gui.addFolder("Camera Position");
+camFolder.add(camera.position, "x", -10, 10, 0.01);
+camFolder.add(camera.position, "y", -10, 10, 0.01);
+camFolder.add(camera.position, "z", -10, 10, 0.01);
+
+const targetFolder = gui.addFolder("Camera Target");
+targetFolder.add(currentTarget, "x", -10, 10, 0.01).onChange(updateCamera);
+targetFolder.add(currentTarget, "y", -10, 10, 0.01).onChange(updateCamera);
+targetFolder.add(currentTarget, "z", -10, 10, 0.01).onChange(updateCamera);
+
+const miscFolder = gui.addFolder("Other");
+miscFolder.add(camera, "fov", 20, 120, 1).onChange(() => camera.updateProjectionMatrix());
+miscFolder.add(controls, "enableDamping");
+miscFolder.add(controls, "enabled").name("Orbit Enabled");
+
+const actions = {
+  logPreset() {
+    console.log(`
+{
+  name: "New View",
+  position: { x: ${camera.position.x.toFixed(3)}, y: ${camera.position.y.toFixed(3)}, z: ${camera.position.z.toFixed(3)} },
+  target: { x: ${currentTarget.x.toFixed(3)}, y: ${currentTarget.y.toFixed(3)}, z: ${currentTarget.z.toFixed(3)} },
+}
+`);
+  },
+};
+
+gui.add(actions, "logPreset").name("Log Camera Preset");
