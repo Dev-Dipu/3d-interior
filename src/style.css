@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "gilroy", sans-serif;
 }
 
 body {
@@ -18,37 +19,55 @@ body {
     z-index: 10;
     pointer-events: none;
 }
-
 .controls {
     position: absolute;
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 15px;
+    gap: 14px;
     z-index: 100;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 15px;
-    border-radius: 50px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    background: #ffffff;
+    padding: 14px 18px;
+    border-radius: 40px;
+
+    border: 1px solid #000;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+
+    backdrop-filter: none;
 }
 
+/* Button base */
 .view-btn {
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 25px;
+    background: #ffffff;
+    border: 1px solid #000;
+    color: #000;
+
+    padding: 10px 22px;
+    border-radius: 30px;
     cursor: pointer;
     font-weight: 500;
-    transition: all 0.3s ease;
+    letter-spacing: 0.02em;
+
+    transition: all 0.25s ease;
 }
 
-.view-btn:hover,
-.view-btn.active {
-    background: white;
-    color: black;
+/* Hover state */
+.view-btn:hover {
+    background: #f4ecd4;       /* soft light gold */
+    border-color: #edd11a;     /* gold */
+    color: #000;
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6px 14px rgba(214, 177, 94, 0.35);
+}
+
+/* Active state */
+.view-btn.active {
+    background: #edd11a;       /* gold */
+    border-color: #edd11a;
+    color: #000;
+    font-weight: 600;
+    box-shadow: 0 8px 18px rgba(214, 177, 94, 0.45);
+    transform: translateY(-2px);
 }
