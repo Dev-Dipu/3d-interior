@@ -31,7 +31,7 @@ document.querySelector("#app").appendChild(renderer.domElement);
 // Controls
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
-
+controls.enabled = false;
 // Lighting
 const ambient = new THREE.AmbientLight(0xffffff, 0.6);
 scene.add(ambient);
