@@ -9,9 +9,12 @@
         <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     </head>
     <body>
+        <div class="md:hidden h-screen w-full fixed top-0 left-0 bg-black z-[99] flex items-center justify-center">
+            <h2 class="text-2xl text-white text-center">Mobile version is in progress</h2>
+        </div>
         <div class="scale-86 rounded-4xl overflow-hidden" id="app"></div>
         <div class="w-full flex items-center justify-center" id="info">
-            <h1 class="text-xl leading-[1.5]">Monster Creations</h1>
+            <h1 class="text-xl leading-[1.5]">3D Interior Demo</h1>
         </div>
         <script type="module" src="/src/main.js"></script>
     </body>
